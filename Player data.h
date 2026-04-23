@@ -4,6 +4,20 @@
 #include <cstdlib>
 using namespace std;
 
+bool userConfirmation(const string& message) { // Function to get user confirmation (Y/N)
+    char response;
+    do {
+        cout << message;
+        cin >> response;
+        response = toupper(response);
+        if (response != 'Y' && response != 'N') {
+            system("clear"); // Clear the console for better readability
+            cout << "Invalid input. Please enter 'Y' for Yes or 'N' for No." << endl;
+        }
+    } while (response != 'Y' && response != 'N');
+    return response == 'Y';
+}
+
 void getPlayerName(string &player1, string &player2) { //get two players names
     do { //collect player1's name
         cout << "Player 1, what is your name? (Capitalization matters)\n";
@@ -24,20 +38,6 @@ void getPlayerName(string &player) { //get single players name
         getline(cin, player);
         system("cls");
     } while (userConfirmation("You entered " + player + " is this correct?(Y/N)\n"));
-}
-
-bool userConfirmation(const string& message) { // Function to get user confirmation (Y/N)
-    char response;
-    do {
-        cout << message;
-        cin >> response;
-        response = toupper(response);
-        if (response != 'Y' && response != 'N') {
-            system("clear"); // Clear the console for better readability
-            cout << "Invalid input. Please enter 'Y' for Yes or 'N' for No." << endl;
-        }
-    } while (response != 'Y' && response != 'N');
-    return response == 'Y';
 }
 
 struct playerData {
@@ -76,6 +76,10 @@ void displayPlayerData(string name) { //prints a players data
     
 }
 
+void displayPlayerData(bool all) {
+    
+}
+
 void sortData(const int& sortOptions) {
     fstream dataFile;
 
@@ -91,13 +95,13 @@ void sortData(const int& sortOptions) {
     dataFile >> trash;
 
     //fetch all data from file
-    while (getline(dataFile, data[numberOfSavedPlayers].name) && dataFile >> data[numberOfSavedPlayers].botWins >> data[numberOfSavedPlayers].playerWins) {
+    while (dataFile >> data[numberOfSavedPlayers].name && dataFile >> data[numberOfSavedPlayers].botWins >> data[numberOfSavedPlayers].playerWins) {
         numberOfSavedPlayers++;
         if (numberOfSavedPlayers > arraySize) { //if array gets full reallocate bigger one
             playerData *temp = new playerData[arraySize];
 
             for (int i = 0; i < arraySize; i++) {
-                *(data + i) = *(temp + i);
+                temp[i] = data[i];
             }
 
             delete[] data;
@@ -107,7 +111,7 @@ void sortData(const int& sortOptions) {
             data = new playerData[arraySize];
 
             for (int i = 0; i < (arraySize - 10); i++) {
-                *(temp + i) = *(data + i);
+                data[i] = temp[i];
             }
 
             delete[] temp;
@@ -118,7 +122,7 @@ void sortData(const int& sortOptions) {
         playerData temp;
 
         for (int i = 0; i < (numberOfSavedPlayers - 1); i++) {
-            for (int j = i + 1; i < numberOfSavedPlayers; i++) {
+            for (int j = i + 1; j < numberOfSavedPlayers; j++) {
                 if (data[i].name > data[j].name) {
                     temp = data[i];
 
@@ -133,7 +137,7 @@ void sortData(const int& sortOptions) {
         playerData temp;
 
         for (int i = 0; i < (numberOfSavedPlayers - 1); i++) {
-            for (int j = i + 1; i < numberOfSavedPlayers; i++) {
+            for (int j = i + 1; j < numberOfSavedPlayers; j++) {
                 if (data[i].botWins < data[j].botWins) {
                     temp = data[i];
 
@@ -148,7 +152,7 @@ void sortData(const int& sortOptions) {
         playerData temp;
 
         for (int i = 0; i < (numberOfSavedPlayers - 1); i++) {
-            for (int j = i + 1; i < numberOfSavedPlayers; i++) {
+            for (int j = i + 1; j < numberOfSavedPlayers; j++) {
                 if (data[i].playerWins < data[j].playerWins) {
                     temp = data[i];
 
@@ -160,12 +164,14 @@ void sortData(const int& sortOptions) {
         } 
     }
 
-    dataFile.out; //switch to output mode
+    dataFile.close();
+
+    dataFile.open("playerData.txt", ios::out);
 
     dataFile << sortOptions << endl; //output how the file is sorted
 
     for (int i = 0; i < numberOfSavedPlayers; i++) { //output data
-        dataFile << data[i].name + "\n" + to_string(data[i].botWins) + " " + to_string(data[i].playerWins) << endl;
+        dataFile << data[i].name + " " + to_string(data[i].botWins) + " " + to_string(data[i].playerWins) << endl;
     }
 
     dataFile.close();
