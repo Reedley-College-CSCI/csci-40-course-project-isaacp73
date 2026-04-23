@@ -9,14 +9,14 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <limits>
 // #include "Game functions.h"
-// #include "Player data.h"
+#include "Player data.h"
 // #include "Bot functions.h"
 using namespace std;
 
 void twoPlayer();
 void singlePlayer();
+void displayData();
 
 int main() {
     while (true) {
@@ -37,6 +37,9 @@ int main() {
             singlePlayer();
             break;
         }
+        else if (userIn == 3) {
+            displayData();
+        }
         else {
             system("cls");
             cout << "Oops, something went wrong, that's an invalid input try again!\n";
@@ -48,9 +51,20 @@ int main() {
 }
 
 void twoPlayer() {
-    cout << "Entered two player mode\n";
+    string player1;
+    string player2;
+
+    getPlayerName(player1, player2);
+    returningPlayerCheck(player1) ? displayPlayerData(player1) : newPlayer(player1);
+    returningPlayerCheck(player2) ? displayPlayerData(player2) : newPlayer(player2);
 }
 
 void singlePlayer() {
-    cout << "Entered single player mode\n";
+    string player;
+    getPlayerName(player);
+    returningPlayerCheck(player) ? displayPlayerData(player) : newPlayer(player);
+}
+
+void displayData() {
+
 }
