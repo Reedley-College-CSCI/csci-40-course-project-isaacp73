@@ -11,33 +11,70 @@ bool userConfirmation(const string& message) { // Function to get user confirmat
         cin >> response;
         response = toupper(response);
         if (response != 'Y' && response != 'N') {
-            system("clear"); // Clear the console for better readability
+            system("cls"); // Clear the console for better readability
             cout << "Invalid input. Please enter 'Y' for Yes or 'N' for No." << endl;
         }
     } while (response != 'Y' && response != 'N');
+
+    system("cls");
+    cin.ignore();
     return response == 'Y';
 }
 
+bool checkString(const string& name) { //check if name has whitespace
+    for (int i = 0; i < name.size(); i++) {
+        if (name.at(i) == ' ') return true;
+    }
+    return false;
+}
+
 void getPlayerName(string &player1, string &player2) { //get two players names
+    bool cont;
+
     do { //collect player1's name
-        cout << "Player 1, what is your name? (Capitalization matters)\n";
+        cont = false;
+
+        cout << "Player 1, what is your name? (Capitalization matters. Only First name, no whitespace.)\n";
         getline(cin, player1);
         system("cls");
-    } while (userConfirmation("You entered " + player1 + " is this correct?(Y/N)\n"));
+
+        if (checkString(player1)) {
+            cout << "Bruh..I said no whitespace. TRY AGAIN!\n";
+            cont = true;
+        }
+
+    } while (cont || !userConfirmation("You entered " + player1 + " is this correct?(Y/N)\n"));
 
     do { //collect player2's name
-        cout << "Player 2, what is your name? (Capitalization matters)\n";
+        cont = false;
+
+        cout << "Player 2, what is your name? (Capitalization matters. Only First name, no whitespace.)\n";
         getline(cin, player2);
         system("cls");
-    } while (userConfirmation("You entered " + player2 + " is this correct?(Y/N)\n"));
+
+        if (checkString(player2)) {
+            cout << "Bruh..I said no whitespace. TRY AGAIN!\n";
+            cont = true;
+        }
+
+    } while (cont || !userConfirmation("You entered " + player2 + " is this correct?(Y/N)\n"));
 }
 
 void getPlayerName(string &player) { //get single players name
+    bool cont;
+
     do {
-        cout << "What is your name? (Capitalization matters)\n";
+        cont = false;
+
+        cout << "What is your name? (Capitalization matters. Only First name, no whitespace.)\n";
         getline(cin, player);
         system("cls");
-    } while (userConfirmation("You entered " + player + " is this correct?(Y/N)\n"));
+
+        if (checkString(player)) {
+            cout << "Bruh..I said no whitespace. TRY AGAIN!\n";
+            cont = true;
+        }
+    } while (cont || !userConfirmation("You entered " + player + " is this correct?(Y/N)\n"));
 }
 
 struct playerData {
@@ -46,9 +83,9 @@ struct playerData {
     unsigned int playerWins;
 };
 
-bool returningPlayerCheck(string name) { //check if there is a returning player
+// bool returningPlayerCheck(string name) { //check if there is a returning player
 
-}
+// }
 
 void newPlayer(string name) { //Add new player to data file
     playerData player;

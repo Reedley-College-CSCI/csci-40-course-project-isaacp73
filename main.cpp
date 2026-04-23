@@ -34,7 +34,7 @@ int main() {
         else if (userIn == 2) {
             system("cls");
             cout << "I know you're scared of my bot, it's ok\n";
-            singlePlayer();
+            twoPlayer();
             break;
         }
         else if (userIn == 3) {
@@ -50,20 +50,29 @@ int main() {
     return 0;
 }
 
+void singlePlayer() {
+    string player;
+
+    cin.ignore();
+    getPlayerName(player);
+    // returningPlayerCheck(player) ? displayPlayerData(player) : newPlayer(player);
+
+    cout << player << endl;
+}
+
 void twoPlayer() {
     string player1;
     string player2;
 
+    cin.ignore();
     getPlayerName(player1, player2);
-    returningPlayerCheck(player1) ? displayPlayerData(player1) : newPlayer(player1);
-    returningPlayerCheck(player2) ? displayPlayerData(player2) : newPlayer(player2);
+    // returningPlayerCheck(player1) ? displayPlayerData(player1) : newPlayer(player1);
+    // returningPlayerCheck(player2) ? displayPlayerData(player2) : newPlayer(player2);
+
+    cout << player1 << endl << player2 << endl;
 }
 
-void singlePlayer() {
-    string player;
-    getPlayerName(player);
-    returningPlayerCheck(player) ? displayPlayerData(player) : newPlayer(player);
-}
+
 
 void displayData() {
 
