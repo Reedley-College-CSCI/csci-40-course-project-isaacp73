@@ -28,7 +28,7 @@ bool checkString(const string& name) { //check if name has whitespace
     return false;
 }
 
-void getPlayerName(string &player1, string &player2) { //get two players names
+void getPlayerName(string& player1, string& player2) { //get two players names
     bool cont;
 
     do { //collect player1's name
@@ -60,7 +60,7 @@ void getPlayerName(string &player1, string &player2) { //get two players names
     } while (cont || !userConfirmation("You entered " + player2 + " is this correct?(Y/N)\n"));
 }
 
-void getPlayerName(string &player) { //get single players name
+void getPlayerName(string& player) { //get single players name
     bool cont;
 
     do {
@@ -183,6 +183,8 @@ void sortData(const int& sortOptions) {
     }
 
     dataFile.close();
+
+    delete[] data;
 }
 
 bool findPlayer(string name, int& index) { //look for player in player saved data
@@ -225,6 +227,8 @@ bool findPlayer(string name, int& index) { //look for player in player saved dat
     }
     }
 
+    dataFile.close();
+
     int beg = 0;
     int end = numberOfSavedPlayers - 1;
     int middle = numberOfSavedPlayers / 2;
@@ -247,6 +251,8 @@ bool findPlayer(string name, int& index) { //look for player in player saved dat
     else {
         return false;
     }
+
+    delete[] data;
 }
 
 void newPlayer(string name) { //Add new player to data file
@@ -267,14 +273,52 @@ void newPlayer(string name) { //Add new player to data file
     playerData.close();
 }
 
-void updatePlayerData(string name, bool botOrPlayerWin) {
+void displayPlayerData(int index) { //prints a players data
+    fstream dataFile;
+    dataFile.open("playerData.txt", ios::in);
 
-}
+    int numberOfSavedPlayers = 0;
+    int arraySize = 10;
+    playerData *data = new playerData[arraySize]; //dynamically allocates array of structs to store player data
+    { //input player data from file
+        int trash;
+        dataFile >> trash;
 
-void displayPlayerData(string name) { //prints a players data
-    
+        //fetch all data from file
+        while (dataFile >> data[numberOfSavedPlayers].name && dataFile >> data[numberOfSavedPlayers].botWins >> data[numberOfSavedPlayers].playerWins) {
+            numberOfSavedPlayers++;
+            if (numberOfSavedPlayers > arraySize) { //if array gets full reallocate bigger one
+                playerData *temp = new playerData[arraySize];
+
+                for (int i = 0; i < arraySize; i++) {
+                    temp[i] = data[i];
+                }
+
+                delete[] data;
+
+                arraySize += 10;
+
+                data = new playerData[arraySize];
+
+                for (int i = 0; i < (arraySize - 10); i++) {
+                    data[i] = temp[i];
+                }
+
+                delete[] temp;
+            }
+        }
+    }
+    dataFile.close();
+
+    cout << "Name: " + data[index].name << "\t\tWins against humans: " << data[index].playerWins << "\t\tWins against the mechine: " << data[index].botWins << endl;
+
+    delete[] data;
 }
 
 void displayPlayerData(bool all) {
     
+}
+
+void updatePlayerData(string name, bool botOrPlayerWin) {
+
 }
