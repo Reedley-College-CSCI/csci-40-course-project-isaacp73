@@ -83,40 +83,11 @@ struct playerData {
     unsigned int playerWins;
 };
 
-// bool returningPlayerCheck(string name) { //check if there is a returning player
-
-// }
-
-void newPlayer(string name) { //Add new player to data file
-    playerData player;
-
-    player.name = name;
-    player.botWins = 0;
-    player.playerWins = 0;
-
-    fstream playerData;
-
-    playerData.open("playerData.txt", ios::app);
-
-    playerData.seekp(0, ios::end);
-
-    playerData << player.name << " " << player.botWins << " " << player.playerWins << endl;
-
-    playerData.close();
-}
-
-void updatePlayerData(string name, bool botOrPlayerWin) {
-
-}
-
-void displayPlayerData(string name) { //prints a players data
-    
-}
-
-void displayPlayerData(bool all) {
-    
-}
-
+/*
+1 = by name
+2 = by bot wins
+3 = by player wins
+*/
 void sortData(const int& sortOptions) {
     fstream dataFile;
 
@@ -212,4 +183,98 @@ void sortData(const int& sortOptions) {
     }
 
     dataFile.close();
+}
+
+bool findPlayer(string name, int& index) { //look for player in player saved data
+    sortData(1); //sort data by name
+
+    fstream dataFile;
+    dataFile.open("playerData.txt", ios::in);
+
+    int numberOfSavedPlayers = 0;
+    int arraySize = 10;
+    playerData *data = new playerData[arraySize]; //dynamically allocates array of structs to store player data
+
+    
+    { //input player data from file
+    int trash;
+    dataFile >> trash;
+
+    //fetch all data from file
+    while (dataFile >> data[numberOfSavedPlayers].name && dataFile >> data[numberOfSavedPlayers].botWins >> data[numberOfSavedPlayers].playerWins) {
+        numberOfSavedPlayers++;
+        if (numberOfSavedPlayers > arraySize) { //if array gets full reallocate bigger one
+            playerData *temp = new playerData[arraySize];
+
+            for (int i = 0; i < arraySize; i++) {
+                temp[i] = data[i];
+            }
+
+            delete[] data;
+
+            arraySize += 10;
+
+            data = new playerData[arraySize];
+
+            for (int i = 0; i < (arraySize - 10); i++) {
+                data[i] = temp[i];
+            }
+
+            delete[] temp;
+        }
+    }
+    }
+
+    int beg = 0;
+    int end = numberOfSavedPlayers - 1;
+    int middle = numberOfSavedPlayers / 2;
+
+    while (data[middle].name != name && end > beg) {
+        if (data[middle].name > name) {
+            end = middle - 1;
+            middle = (end - beg) / 2 + beg;
+        }
+        else {
+            beg = middle + 1;
+            middle = (end - beg) / 2 + beg;
+        }
+    }
+
+    if (data[middle].name == name) {
+        index = middle;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void newPlayer(string name) { //Add new player to data file
+    playerData player;
+
+    player.name = name;
+    player.botWins = 0;
+    player.playerWins = 0;
+
+    fstream playerData;
+
+    playerData.open("playerData.txt", ios::app);
+
+    playerData.seekp(0, ios::end);
+
+    playerData << player.name << " " << player.botWins << " " << player.playerWins << endl;
+
+    playerData.close();
+}
+
+void updatePlayerData(string name, bool botOrPlayerWin) {
+
+}
+
+void displayPlayerData(string name) { //prints a players data
+    
+}
+
+void displayPlayerData(bool all) {
+    
 }
