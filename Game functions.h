@@ -1,7 +1,28 @@
 #include <iostream>
 
-int makeMove(int board[7][6], int move, bool whichPlayer) {
+bool makeMove(int move, bool which, int gamePosition[7][6]) {
+    if (move > 7 || move < 1) {
+        return false;
+    }
+    if (which) { //if the bot is making a move 
+        for (int i = 5; i >= 0; i--) { //incrament up the column that is being played
+            if (gamePosition[move - 1][i] != 0 && i == 0) return false; //will catch if the whole column is full and return false to siginify an illigal move
+            if (gamePosition[move - 1][i] != 0) continue; //check if the position in the column is taken
 
+            gamePosition[move - 1][i] = 1; //when an open position is found will set it to 2 representing a player piece
+            break;
+        }
+    }
+    else { //if the player is making a move
+        for (int i = 5; i >= 0; i--) { //incrament up the column that is being played
+            if (gamePosition[move - 1][i] != 0 && i == 0) return false; //will catch if the whole column is full and return false to siginify an illigal move
+            if (gamePosition[move - 1][i] != 0) continue; //check if the position in the column is taken
+
+            gamePosition[move - 1][i] = 2; //when an open position is found will set it to 2 representing a player piece
+            break;
+        }
+    }
+    return true;
 }
 
 void initGamePos(int gamePosition[7][6]) { //initiate gamePos array
