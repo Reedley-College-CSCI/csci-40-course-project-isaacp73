@@ -55,9 +55,16 @@ void singlePlayer() {
 
     cin.ignore();
     getPlayerName(player);
-    // returningPlayerCheck(player) ? displayPlayerData(player) : newPlayer(player);
 
-    cout << player << endl;
+    int index;
+
+    if (findPlayer(player, index)) {
+        cout << "Welcome back " + player + ". Are you ready to loose to my machine?\n";
+    }
+    else {
+        newPlayer(player);
+        cout << "Welcome " + player + ". Are you ready for your first time loosing to my machine?\n";
+    }
 }
 
 void twoPlayer() {
@@ -66,10 +73,26 @@ void twoPlayer() {
 
     cin.ignore();
     getPlayerName(player1, player2);
-    // returningPlayerCheck(player1) ? displayPlayerData(player1) : newPlayer(player1);
-    // returningPlayerCheck(player2) ? displayPlayerData(player2) : newPlayer(player2);
 
-    cout << player1 << endl << player2 << endl;
+    int index;
+
+   if (findPlayer(player1, index)) {
+        cout << "Weclome back player 1. Here are your player stats:\n";
+        displayPlayerData(index);
+    }
+    else {
+        newPlayer(player1);
+        cout << "Weclome " + player1 + ". Your stats will be kept tack of and saved.\n";
+    }
+
+    if (findPlayer(player2, index)) {
+        cout << "Weclome back player 2. Here are your player stats:\n";
+        displayPlayerData(index);
+    }
+    else {
+        newPlayer(player2);
+        cout << "Weclome " + player2 + ". Your stats will be kept tack of and saved.\n";
+    }
 }
 
 

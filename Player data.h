@@ -274,6 +274,8 @@ void newPlayer(string name) { //Add new player to data file
 }
 
 void displayPlayerData(int index) { //prints a players data
+    sortData(1);
+
     fstream dataFile;
     dataFile.open("playerData.txt", ios::in);
 
