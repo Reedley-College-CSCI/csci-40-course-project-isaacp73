@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Objects.h"
 
-bool Game::makeMove(int move, bool which) {
+bool Game::makeMove(int move, bool which) { //true is 1 and false is 2
     if (move > 7 || move < 1) {
         return false;
     }
@@ -26,7 +26,9 @@ bool Game::makeMove(int move, bool which) {
     return true;
 }
 
-Game::Game() { //initiate gamePos array
+Game::Game(int (*ptr)[6]) { //initiate gamePos array
+    board = ptr;    
+
     for (int y = 0; y < 6; y++) { //incroment the y cord
         for (int x = 0; x < 7; x++) { //increment the x cord
             board[x][y] = 0; //sets every value to 0 initially
@@ -39,10 +41,10 @@ bool Game::checkWin() {
     for (int y = 0; y < 6; y++) { //incrament through every row
         int inARow  = 0;
         for (int x = 0; x < 6; x++) { //increment accross the row
-            if (board[x][y] == 1 || board[x][y] == 2) { //check if theres a piece
+            if (board[x][y] == 1 || board[x][y] == 2) { //check if theres is a piece
                 if (board[x][y] == board[x + 1][y]) { //if that piece matches the one next to it
                     inARow++;
-                    if (inARow == 3) { //if there has been 3 times where they hae matched that means there are four in a row
+                    if (inARow == 3) { //if there has been 3 times where they have matched that means there are four in a row
                         return true;
                     }
                 }
@@ -60,10 +62,10 @@ bool Game::checkWin() {
     for (int x = 0; x < 7; x++) { //incrament through every column
         int inAColumn  = 0;
         for (int y = 0; y < 5; y++) { //incrament down the column
-            if (board[x][y] == 1 || board[x][y] == 2) { //check if there us a piece
+            if (board[x][y] == 1 || board[x][y] == 2) { //check if there is a piece
                 if (board[x][y] == board[x][y + 1]) { //if that piece matches the one under to it
                     inAColumn++;
-                    if (inAColumn == 3) { //if there has been 3 times where they hae matched that means there are four in a column
+                    if (inAColumn == 3) { //if there has been 3 times where they have matched that means there are four in a column
                         return true;
                     }
                 }
@@ -175,13 +177,5 @@ void Game::printBoard() { //initial generation of empty board
             std::cout << board[x][y];
         }
         std::cout << std::endl;
-    }
-}
-
-void Game::copyBoard(int copy[7][6]) {
-    for (int y = 0; y < 6; y++) { //incroment the y cord
-        for (int x = 0; x < 7; x++) { //increment the x cord
-            copy[x][y] = board[x][y]; //sets every value to 0 initially
-        }
     }
 }

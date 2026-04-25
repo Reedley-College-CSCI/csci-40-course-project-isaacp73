@@ -1,18 +1,19 @@
 #pragma once
+#include <string>
 
 class PlayerData {
     private:
-        string name;
+        std::string name;
         unsigned int playerWins;
         unsigned int botwins;
         struct dataStruct {
-            string name;
+            std::string name;
             unsigned int botWins;
             unsigned int playerWins;
         };
     public:
         PlayerData();
-        bool findPlayer(string name);
+        bool findPlayer(std::string name);
         void newPlayer();
         void displayPlayerData();
         void sortData(const int& type);
@@ -20,21 +21,22 @@ class PlayerData {
 
 class Game {
     private:
-        int board[7][6];
+        int (*board)[6];
     public:
-        Game(); //initiate the game
+        Game(int (*ptr)[6]); //initiate the game
         bool makeMove(int move, bool which);
         void printBoard();
         bool checkWin();
-        void copyBoard(int copy[7][6]);
 };
 
 class Bot {
     private:
-        int copyOfBoard[7][6];
-        int botMove;
+        int (*board)[6];
+        int move;
     public:
-        void copyBoard(int board[7][6]);
+        Bot(int (*ptr)[6]);
+        void PrintMove();
         int botMove();
-        bool block(); //checks if the bot has to block any wins
+        bool oneMoveWins(int playerOrBot);
+        bool checkIfWin(bool playerOrBot);
 };
