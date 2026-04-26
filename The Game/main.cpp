@@ -9,9 +9,8 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include "Game functions.h"
-#include "Player data.h"
-#include "Bot functions.h"
+#include <limits>
+#include "Objects.h"
 using namespace std;
 
 void twoPlayer();
@@ -126,90 +125,10 @@ void singlePlayer() {
 }
 
 void twoPlayer() {
-    string player1;
-    string player2;
+    PlayerData player1;
+    PlayerData player2;
 
-    cin.ignore();
-    getPlayerName(player1, player2);
-
-    int index;
-
-   if (findPlayer(player1, index)) {
-        cout << "Weclome back player 1. Here are your player stats:\n";
-        displayPlayerData(index);
-    }
-    else {
-        newPlayer(player1);
-        cout << "Weclome " + player1 + ". Your stats will be kept tack of and saved.\n";
-    }
-
-    if (findPlayer(player2, index)) {
-        cout << "Weclome back player 2. Here are your player stats:\n";
-        displayPlayerData(index);
-    }
-    else {
-        newPlayer(player2);
-        cout << "Weclome " + player2 + ". Your stats will be kept tack of and saved.\n";
-    }
-
-    int board[7][6];
-
-    initGamePos(board);
-
-    bool whoseTurn = true;
-
-    while (!checkWin(board)) {
-        int move;
-        generateBoard(board);
-
-        if (whoseTurn) {
-            cout << player1 + ": ";
-            cin >> move;
-
-            if (!makeMove(move, true, board)) {
-                system("cls");
-                cout << "invalid move\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else {
-                whoseTurn = !whoseTurn;
-            }
-        }
-        else {
-            cout << player2 + ": ";
-            cin >> move;
-
-            if (!makeMove(move, false, board)) {
-                system("cls");
-                cout << "invalid move\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else {
-                whoseTurn = !whoseTurn;
-            }
-        }
-
-        system("cls");
-    }
-
-    if (!whoseTurn) {
-        system("clear");
-        generateBoard(board);
-        cout << player1 + " has won\n" + player2 + " you suck\n";
-
-        updatePlayerData(player1, false);
-    } 
-    else {
-        system("clear");
-        generateBoard(board);
-        cout << player2 + " has won\n" + player1 + " you suck\n";
-
-        updatePlayerData(player2, false);
-    }
+    
 }
 
 

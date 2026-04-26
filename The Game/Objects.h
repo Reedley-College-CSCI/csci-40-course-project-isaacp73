@@ -34,11 +34,13 @@ class Bot {
     private:
         int (*board)[6];
         int move;
+        int Turn;
     public:
         Bot(int (*ptr)[6]);
         void PrintMove();
         int botMove(int turn);
-        int compute(int turns);
+        int compute();
+        int checkFiles();
         bool oneMoveWins(int playerOrBot);
         bool checkIfWin(bool playerOrBot);
 };

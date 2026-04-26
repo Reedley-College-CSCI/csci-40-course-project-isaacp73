@@ -6,11 +6,17 @@ Bot::Bot(int (*ptr)[6]) {
     board = ptr;
 }
 
-int Bot::compute(int turns) {
+int Bot::compute() {
     
 }
 
+int Bot::checkFiles() {
+    return 0;
+}
+
 int Bot::botMove(int turn) {
+
+    Turn = turn;
 
     if (oneMoveWins(1) && checkIfWin(true)) return move; //check if there is a winning move
 
