@@ -2,7 +2,6 @@
 #include <iostream>
 
 void moveSequence(int turn, unsigned long long int pos, int *moves) {
-    int *moves = new int[turn + 1];
 
     bool bot = true;
 
@@ -26,10 +25,10 @@ void moveSequence(int turn, unsigned long long int pos, int *moves) {
 1. turn
 2. position
 */
-int main(char* arg[]) {
+int main(int argc, char* arg[]) {
     Game board;
 
-    int *moves;
+    int *moves = new int[std::stoi(arg[1]) + 1];
 
     moveSequence(std::stoi(arg[1]), std::stoi(arg[2]), moves);
 
