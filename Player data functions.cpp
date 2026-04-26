@@ -242,3 +242,74 @@ void PlayerData::sortData(const int& type) {
 void PlayerData::displayPlayerData() {
     cout << "Name: " + name << "\t\tBot wins: " << botwins << "\t\tPlayer wins: " << playerWins << endl; 
 }
+
+void PlayerData::updateData(bool botOrPlayerWin) { //true is bot win false is player win
+    if(botOrPlayerWin) {
+        botwins++;
+    }
+    else {
+        playerWins++;
+    }
+
+    sortData(1);
+
+    fstream dataFile;
+
+    dataFile.open("playerData.txt", ios::in);
+
+    int arrSize = 10;
+
+    dataStruct *playerData = new dataStruct[arrSize];
+
+    unsigned int i = 0;
+    while (dataFile >> playerData[i].name >> playerData[i].botWins >> playerData[i].playerWins) { //grab all data
+        i++;
+        if (i > arrSize) { //make data array bigger if full
+            dataStruct *temp = new dataStruct[arrSize]; //create temp array
+
+            for (int j = 0; j < arrSize; j++) { //copy to temp
+                temp[j] = playerData[i];
+            }
+
+            delete[] playerData;
+            arrSize += 10;
+            playerData = new dataStruct[arrSize];
+
+            for (int j = 0; j < (arrSize - 10); j++) { //copy back to bigger player data array
+                playerData[i] = temp[j];
+            }
+
+            delete[] temp;
+        }
+    }
+
+    dataFile.close();
+
+    int beg = 0;
+    int end = i - 1;
+    int middle = i / 2;
+
+    while (playerData[middle].name != name && end > beg) {
+        if (playerData[middle].name > name) {
+            end = middle - 1;
+            middle = (end - beg) / 2 + beg;
+        }
+        else {
+            beg = middle + 1;
+            middle = (end - beg) / 2 + beg;
+        }
+    }
+
+    playerData[middle].botWins = botwins;
+    playerData[middle].playerWins = playerWins;
+
+    dataFile.open("playerData.txt", ios::out);
+
+    for (int j = 0; j < i; j++) { //output data
+        dataFile << playerData[i].name + " " + to_string(playerData[i].botWins) + " " + to_string(playerData[i].playerWins) << endl;
+    }
+
+    dataFile.close();
+
+    delete[] playerData;
+}

@@ -17,6 +17,7 @@ class PlayerData {
         void newPlayer();
         void displayPlayerData();
         void sortData(const int& type);
+        void updateData(bool botOrPlayerWin);
 };
 
 class Game {
