@@ -27,7 +27,7 @@ bool Game::makeMove(int move, bool which) { //true is 1 and false is 2
 }
 
 Game::Game() { //initiate gamePos array
-     for (int y = 0; y < 6; y++) { //incroment the y cord
+    for (int y = 0; y < 6; y++) { //incroment the y cord
         for (int x = 0; x < 7; x++) { //increment the x cord
             board[x][y] = 0; //sets every value to 0 initially
         }
@@ -175,5 +175,13 @@ void Game::printBoard() { //initial generation of empty board
             std::cout << board[x][y];
         }
         std::cout << std::endl;
+    }
+}
+
+void Game::reSetBoard() {
+    for (int y = 0; y < 6; y++) { //incroment the y cord
+        for (int x = 0; x < 7; x++) { //increment the x cord
+            board[x][y] = 0; //sets every value to 0 initially
+        }
     }
 }
