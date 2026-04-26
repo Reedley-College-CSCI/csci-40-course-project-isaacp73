@@ -1,13 +1,26 @@
 #include "Objects.h"
 #include <iostream>
+#include <cmath>
 
 Bot::Bot(int (*ptr)[6]) {
     board = ptr;
 }
 
-int Bot::botMove() {
+int Bot::compute(int turns) {
+    
+}
 
-    return 0;
+int Bot::botMove(int turn) {
+
+    if (oneMoveWins(1) && checkIfWin(true)) return move; //check if there is a winning move
+
+    if (oneMoveWins(2) && checkIfWin(false)) return move; //chekc if a block has to happen
+
+    if (turn == 0) {
+        return 4;
+    }
+
+    return compute();
 }
 
 void Bot::PrintMove() {

@@ -36,7 +36,8 @@ class Bot {
     public:
         Bot(int (*ptr)[6]);
         void PrintMove();
-        int botMove();
+        int botMove(int turn);
+        int compute(int turns);
         bool oneMoveWins(int playerOrBot);
         bool checkIfWin(bool playerOrBot);
 };
