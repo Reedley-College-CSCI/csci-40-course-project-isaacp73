@@ -17,6 +17,7 @@ void twoPlayer();
 void singlePlayer();
 
 int main() {
+    system("cls");
     while (true) {
         int userIn;
 
@@ -96,10 +97,12 @@ void twoPlayer() {
         system("cls");
         leGame.printBoard();
         cout << player1.printName() + " has won\n" + player2.printName() + " you suck\n";
+        player1.updateData(false);
     } 
     else {
         system("cls");
         leGame.printBoard();
         cout << player2.printName() + " has won\n" + player1.printName() + " you suck\n";
+        player2.updateData(false);
     }
 }
