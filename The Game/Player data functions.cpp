@@ -51,6 +51,7 @@ PlayerData::PlayerData() {
 
     if (findPlayer(name)) {
         cout << "Welcome back " + name + ".\n";
+        displayPlayerData();
     }
     else {
         newPlayer();
@@ -310,7 +311,7 @@ void PlayerData::updateData(bool botOrPlayerWin) { //true is bot win false is pl
     dataFile.open("playerData.txt", ios::out);
 
     for (int j = 0; j < i; j++) { //output data
-        dataFile << playerData[i].name + " " + to_string(playerData[i].botWins) + " " + to_string(playerData[i].playerWins) << endl;
+        dataFile << playerData[j].name + " " + to_string(playerData[j].botWins) + " " + to_string(playerData[j].playerWins) << endl;
     }
 
     dataFile.close();
