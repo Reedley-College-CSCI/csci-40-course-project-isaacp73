@@ -172,10 +172,32 @@ bool Game::checkWin() {
 }
 
 void Game::printBoard() { //initial generation of empty board
+    std::string printRow;
+
+    const std::string xs[5] = {"[] #      # ", "[]  #_  _#  ", "[]   _@@_   ", "[]  #    #  ", "[] #      # "};
+    const std::string os[5] = {"[]  @@@@@@  ", "[] ||    || ", "[] ||    || ", "[] ||    || ", "[]  @@@@@@  "};
+    const std::string zero = "[]          ";
+
+    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
     for (int y = 0; y < 6; y++) {
-        for (int x = 0; x < 7; x++) {
-            std::cout << board[x][y];
+        printRow = "";
+        for (int i = 0; i < 5; i++) {
+            for (int x = 0; x < 7; x++) {
+                if (board[x][y] == 1) {
+                    printRow += xs[i];
+                }
+                else if (board[x][y] == 2) {
+                    printRow += os[i];
+
+                }
+                else if (board[x][y] == 0) {
+                    printRow += zero;
+                }
+            }
+            printRow += "[]";
+            printRow += "\n";
         }
-        std::cout << std::endl;
+        std::cout << std::endl << printRow << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
     }
+    std::cout << std::endl;
 }
