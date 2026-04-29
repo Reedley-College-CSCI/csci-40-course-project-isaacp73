@@ -18,6 +18,9 @@ class PlayerData {
         void displayPlayerData();
         void sortData(const int& type);
         void updateData(bool botOrPlayerWin);
+        std::string printName() {
+            return name;
+        }
 };
 
 class Game {

@@ -31,6 +31,9 @@ bool checkString(const string& name) { //check if name has whitespace
 PlayerData::PlayerData() {
     bool cont;
 
+    cin.clear();
+    cin.ignore();
+
     do {
         cont = false;
 
@@ -110,13 +113,14 @@ bool PlayerData::findPlayer(string name) { //look for player in player saved dat
         botwins = data[middle].botWins;
         playerWins = data[middle].playerWins;
 
+        delete[] data;
+
         return true;
     }
-    else {
-        return false;
-    }
-
+    
     delete[] data;
+
+    return false;
 }
 
 void PlayerData::newPlayer() { //Add new player to data file

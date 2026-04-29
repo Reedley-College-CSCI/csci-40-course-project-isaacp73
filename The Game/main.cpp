@@ -15,7 +15,6 @@ using namespace std;
 
 void twoPlayer();
 void singlePlayer();
-void displayData();
 
 int main() {
     while (true) {
@@ -34,9 +33,6 @@ int main() {
             cout << "I know you're scared of my bot, it's ok\n";
             twoPlayer();
         }
-        else if (userIn == 3) {
-            displayData();
-        }
         else if (userIn == -99) {
             break;
         }
@@ -53,86 +49,57 @@ int main() {
 }
 
 void singlePlayer() {
-    string player;
-
-    cin.ignore();
-    getPlayerName(player);
-
-    int index;
-
-    if (findPlayer(player, index)) {
-        cout << "Welcome back " + player + ". Are you ready to loose to my machine?\n";
-    }
-    else {
-        newPlayer(player);
-        cout << "Welcome " + player + ". Are you ready for your first time loosing to my machine?\n";
-    }
-
-        int board[7][6];
-
-    initGamePos(board);
-
-    bool whoseTurn = true;
-
-    int turn = 0;
-
-    while (!checkWin(board)) {
-        int move;
-        generateBoard(board);
-
-        if (whoseTurn) {
-            cout << "The bot is thinking...\n";
-
-            if (turn > 10) {
-                move = botMove(board, turn);
-            }
-            else {
-                move = botMove(board, turn, true);
-            }
-
-            makeMove(move, true, board);
-        }
-        else {
-            cout << player + ": ";
-            cin >> move;
-
-            if (!makeMove(move, false, board)) {
-                system("cls");
-                cout << "invalid move\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            else {
-                whoseTurn = !whoseTurn;
-            }
-        }
-
-        turn++;
-
-        system("cls");
-    }
-
-    if (!whoseTurn) {
-        system("cls");
-        cout << "The machine has won. You suck.\n";
-    } 
-    else {
-        system("cls");
-        cout << "You have won against the machine. Good job.\n";
-        updatePlayerData(player, true);
-    }
+    cout << "IN PROGRESS: COMING SOON.\n";
 }
 
 void twoPlayer() {
     PlayerData player1;
     PlayerData player2;
 
-    
-}
+    int board[7][6];
 
+    Game leGame(board);
 
+    bool which = true;
 
-void displayData() {
+    int move;
 
+    while (!leGame.checkWin()) {
+        leGame.printBoard();
+        bool goodInput;
+
+        if (which) {
+            do {
+                cout << player1.printName() << ":\t";
+                cin >> move;
+
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            } while (!leGame.makeMove(move, which));
+        }
+        else {
+            do {
+                cout << player2.printName() << ":\t";
+                cin >> move;
+                
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            } while (!leGame.makeMove(move, which));
+        }
+
+        which = !which;
+
+        system("cls");
+    }
+
+    if (!which) {
+        system("cls");
+        leGame.printBoard();
+        cout << player1.printName() + " has won\n" + player2.printName() + " you suck\n";
+    } 
+    else {
+        system("cls");
+        leGame.printBoard();
+        cout << player2.printName() + " has won\n" + player1.printName() + " you suck\n";
+    }
 }
