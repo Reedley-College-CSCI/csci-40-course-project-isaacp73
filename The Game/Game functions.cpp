@@ -178,7 +178,7 @@ void Game::printBoard() { //initial generation of empty board
     const std::string os[5] = {"[]  @@@@@@  ", "[] ||    || ", "[] ||    || ", "[] ||    || ", "[]  @@@@@@  "};
     const std::string zero = "[]          ";
 
-    std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+    std::cout << std::string(86, '@');
     for (int y = 0; y < 6; y++) {
         printRow = "";
         for (int i = 0; i < 5; i++) {
@@ -197,7 +197,7 @@ void Game::printBoard() { //initial generation of empty board
             printRow += "[]";
             printRow += "\n";
         }
-        std::cout << std::endl << printRow << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+        std::cout << std::endl << printRow << std::string(86, '@');
     }
     std::cout << std::endl;
 }
