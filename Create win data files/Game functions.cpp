@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Game.h"
+#include "Game tools.h"
 
 bool Game::makeMove(int move, bool which) { //true is 1 and false is 2
     if (move > 7 || move < 1) {
@@ -184,4 +184,52 @@ void Game::reSetBoard() {
             board[x][y] = 0; //sets every value to 0 initially
         }
     }
+}
+
+void positionSequence(int turn, unsigned long long int pos, unsigned long long int *positions) {
+    int P;
+
+    positions[0] = pos;
+
+    for (int i = 1; i < turn; i++) { //determine the series of moves
+        P = positions[i-1] / 7;
+        positions[i-1] % 7 != 0 ? positions[i] = P + 1 : positions[i] = P;
+    }
+}
+
+void calcMoves(unsigned long long int *positions, unsigned int *moveSequence, unsigned int turn) {
+    for (int i = 0; i < turn; i++) {
+        moveSequence[i] = positions[i] - 7 * (positions[i]/7);
+
+        if (moveSequence[i] == 0) moveSequence[i] = 7;
+    }
+}
+
+void Game::createBoard(unsigned int turn, unsigned long long int position) {
+    positions = new unsigned long long int[turn];
+    moveSequence = new unsigned int[turn];
+
+    positionSequence(turn, position, positions);
+    calcMoves(positions, moveSequence, turn);
+
+    bool which = true;
+
+    // for (int i = 0; i < turn; i++) { //for testing: prints moveSequence
+    //     std::cout << moveSequence[i] << std::endl;
+    // }
+
+    // for (int i = 0; i < turn; i++) { //for testing: prints out positions
+    //     std::cout << positions[i] << std::endl;
+    // }
+
+    Game::makeMove(4, which);
+    which = !which;
+
+    for (int i = turn - 1; i >= 0; i--) {
+        Game::makeMove(moveSequence[i], which);
+        which = !which;
+    }
+
+    delete[] positions;
+    delete[] moveSequence;
 }
