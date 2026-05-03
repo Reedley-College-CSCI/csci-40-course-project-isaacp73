@@ -1,36 +1,8 @@
-#include "Game.h"
+#include "Game tools.h"
 #include <iostream>
 #include <cmath>
 #include <fstream>
 #include <string>
-
-void creatBoard(Game &board, unsigned long long int pos, int turn) {
-    int *moves = new int[turn + 1];
-
-    bool bot = true;
-
-    moves[0] = 4;
-
-    int P;
-    unsigned long long int nextPos;
-    unsigned long long int currPos = pos;
-
-    for (int i = turn; i > 0; i--) { //determine the series of moves
-        P = currPos / 7;
-        currPos % 7 != 0 ? nextPos = P + 1 : nextPos = P;
-
-        moves[i] = (currPos - (nextPos * 7 - 6)) + 1;
-
-        currPos = nextPos;
-    }
-
-    for (int i = 0; i <= turn; i++) { //make all the moves on the board
-        board.makeMove(moves[i], bot);
-        bot = !bot;
-    }
-
-    delete[] moves;
-}
 
 /*
 1. Turn
@@ -77,7 +49,7 @@ int main(int argc, char* arg[]) {
 
     for (unsigned long long int currPos = 1; currPos <= positions; currPos++) {
         board.reSetBoard();
-        creatBoard(board, currPos, std::stoi(arg[1]));
+        board.createBoard(std::stoi(arg[1]), currPos);
 
         system("clear");
 
