@@ -20,30 +20,15 @@ Select mode:
 4. ending position
 */
 int main(int argc, char* args[]) {
-    std::fstream dataFile;
-
     if (isalpha(*args[1]) || std::stoi(args[1]) <= 0) {
         std::cout << "Error: first argument must be of type unsigned int\n";
         return 1;
     } 
 
-    std::string name; //name of file
-    name = std::to_string(std::stoi(args[1]));
-    name.append(".bin");
-
-    dataFile.open(name, std::ios::out);
-
-    if (!dataFile.is_open()) {
-        std::cout << "Error: file can not open or be created\n";
-        return -1;
-    }
-
     if (argc > 5) {
         std::cout << "Error: Too many arguments\n";
         return 1;
     }
-
-    dataFile.close();
 
     unsigned int mode; //decode arguments into which mode
     if (*args[2] == 'a') { //if append mode
@@ -66,7 +51,19 @@ int main(int argc, char* args[]) {
         return 1;
     }
 
+    if (mode == 2 || mode == 3) {
+        std::ifstream dataFile;
+        std::string name; //name of file
+        name = args[1];
+        name.append(".bin");
 
+        dataFile.open(name);
+        if (!dataFile.is_open()) {
+            std::cout << "Error: file missing: " << name << std::endl;
+            return 1;
+        }
+        dataFile.close();
+    }
 
     switch(mode) { //call appropiate function
         case 1:
@@ -193,7 +190,7 @@ bool append(unsigned long long int positions, int turn) {
 
 
     if (ending >  pow(7, turn)) {
-        std::cout << "Error: too many positions\n";
+        std::cout << "Error: too many positions\n" << ending << "\t" << lastPos << std::endl;
         return false;
     }
 
