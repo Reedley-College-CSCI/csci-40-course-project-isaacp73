@@ -8,6 +8,19 @@
 1. Turn
 */
 int main(int argc, char* arg[]) {
+    if (argc < 2) {
+        std::cout << "Error: no argument was given\n";
+        return 1;
+    }
+    else if (isalpha(*arg[1]) || std::stoi(arg[1]) <= 0) {
+        std::cout << "Error: argument must be of type unsigned int\n";
+        return 1;
+    }
+    else if (std::stoi(arg[1]) > 20) {
+        std::cout << "Error: turn too high, must be 20 or less\n";
+        return 1;
+    }
+
     unsigned long long int positions = pow(7, std::stoi(arg[1]));
 
     int bytes;
