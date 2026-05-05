@@ -4,20 +4,20 @@
 #include <fstream>
 using namespace std;
 
-bool userConfirmation(const string& message) { // Function to get user confirmation (Y/N)
+bool userConfirmation(const std::string& message) { // Function to get user confirmation (Y/N)
     char response;
     do {
-        cout << message;
-        cin >> response;
+        std::cout << message;
+        std::cin >> response;
         response = toupper(response);
         if (response != 'Y' && response != 'N') {
-            system("cls"); // Clear the console for better readability
-            cout << "Invalid input. Please enter 'Y' for Yes or 'N' for No." << endl;
+            system("clear"); // Clear the console for better readability
+            std::cout << "Invalid input. Please enter 'Y' for Yes or 'N' for No." << std::endl;
         }
     } while (response != 'Y' && response != 'N');
 
-    system("cls");
-    cin.ignore();
+    system("clear");
+    std::cin.ignore();
     return response == 'Y';
 }
 

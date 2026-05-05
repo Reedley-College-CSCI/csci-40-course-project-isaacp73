@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 class PlayerData {
     private:
@@ -36,14 +37,19 @@ class Game {
 class Bot {
     private:
         int (*board)[6];
-        int move;
-        int Turn;
+        int copy[7][6];
+        unsigned int move;
+        unsigned int Turn;
+        unsigned int numFiles;
+        //in Bot algorithms.cpp
+        int compute();
+        int checkFiles();
+        bool oneMoveWins(int playerOrBot);
+        bool verifyWin(bool playerOrBot);
+        bool findWin();
+        void generateBoard(unsigned long long int position, unsigned int turn);
     public:
         Bot(int (*ptr)[6]);
         void PrintMove();
         int botMove(int turn);
-        int compute();
-        int checkFiles();
-        bool oneMoveWins(int playerOrBot);
-        bool checkIfWin(bool playerOrBot);
 };
