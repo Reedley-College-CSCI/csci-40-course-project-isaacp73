@@ -17,7 +17,7 @@ void twoPlayer();
 void singlePlayer();
 
 int main() {
-    system("cls");
+    system("clear");
     while (true) {
         int userIn;
 
@@ -25,12 +25,12 @@ int main() {
         cin >> userIn;
 
         if (userIn == 1) {
-            system("cls");
+            system("clear");
             cout << "Get ready to loose to my bot.\n";
             singlePlayer();
         } 
         else if (userIn == 2) {
-            system("cls");
+            system("clear");
             cout << "I know you're scared of my bot, it's ok\n";
             twoPlayer();
         }
@@ -38,19 +38,69 @@ int main() {
             break;
         }
         else {
-            system("cls");
+            system("clear");
             cout << "Oops, something went wrong, that's an invalid input try again!\n";
             cin.clear();
             cin.ignore();
         }
     }
-    system("cls");
+    system("clear");
     cout << "Thanks for playing. See you later!\n";
     return 0;
 }
 
 void singlePlayer() {
-    cout << "IN PROGRESS: COMING SOON.\n";
+    PlayerData player;
+
+    int board[7][6];
+
+    Game leGame(board);
+
+    Bot leMachine(board);
+
+    bool which = true;
+    unsigned int piece = 1;
+    unsigned int Turn = 0;
+
+    int playerMove;
+
+    while (!leGame.checkWin(piece)) {
+        leGame.printBoard();
+        leMachine.printMoveSequence();
+
+        if (which) {
+            leGame.makeMove(leMachine.botMove(Turn), which);
+        }
+        else {
+            do {
+                cout << player.printName() << ":\t";
+                cin >> playerMove;
+
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            } while (!leGame.makeMove(playerMove, which));
+        }
+
+        which ? piece = 1 : piece = 2;
+
+        which = !which;
+
+        Turn++;
+
+        system("clear");
+    }
+
+    if (!which) {
+        system("clear");
+        leGame.printBoard();
+        cout << "The machines have won\n" + player.printName() + " you have failed humanity\n";
+    } 
+    else {
+        system("clear");
+        leGame.printBoard();
+        cout << player.printName() + " has won\n" + "You've beat the Machine...this time\n";
+        player.updateData(true);
+    }
 }
 
 void twoPlayer() {
@@ -62,12 +112,12 @@ void twoPlayer() {
     Game leGame(board);
 
     bool which = true;
+    int piece = 1;
 
     int move;
 
-    while (!leGame.checkWin()) {
+    while (!leGame.checkWin(piece)) {
         leGame.printBoard();
-        bool goodInput;
 
         if (which) {
             do {
@@ -88,19 +138,21 @@ void twoPlayer() {
             } while (!leGame.makeMove(move, which));
         }
 
+        which ? piece = 1 : piece = 2;
+
         which = !which;
 
-        system("cls");
+        system("clear");
     }
 
     if (!which) {
-        system("cls");
+        system("clear");
         leGame.printBoard();
         cout << player1.printName() + " has won\n" + player2.printName() + " you suck\n";
         player1.updateData(false);
     } 
     else {
-        system("cls");
+        system("clear");
         leGame.printBoard();
         cout << player2.printName() + " has won\n" + player1.printName() + " you suck\n";
         player2.updateData(false);

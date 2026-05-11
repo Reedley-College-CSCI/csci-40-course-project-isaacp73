@@ -36,23 +36,16 @@ Game::Game(int (*ptr)[6]) { //initiate gamePos array
     }
 }
 
-bool Game::checkWin() {
+bool Game::checkWin(int which) {
     // check for horizantal wins
-    for (int y = 0; y < 6; y++) { //incrament through every row
+    for (int y = 0; y < 6; y++) {
         int inARow  = 0;
-        for (int x = 0; x < 6; x++) { //increment accross the row
-            if (board[x][y] == 1 || board[x][y] == 2) { //check if theres is a piece
-                if (board[x][y] == board[x + 1][y]) { //if that piece matches the one next to it
-                    inARow++;
-                    if (inARow == 3) { //if there has been 3 times where they have matched that means there are four in a row
-                        return true;
-                    }
-                }
-                else { //if there is a differtent piece blocking the win
-                    inARow = 0; //reset counter to 0
-                }
+        for (int x = 0; x < 6; x++) {
+            if (board[x][y] == which && board[x][y] == board[x + 1][y]) { //check if there is a piece and one next to it
+                inARow++;
+                if (inARow == 3) return true;
             }
-            else { //catches if there is a blank space blocking the win
+            else { 
                 inARow = 0;
             }
         }
@@ -62,19 +55,12 @@ bool Game::checkWin() {
     for (int x = 0; x < 7; x++) { //incrament through every column
         int inAColumn  = 0;
         for (int y = 0; y < 5; y++) { //incrament down the column
-            if (board[x][y] == 1 || board[x][y] == 2) { //check if there is a piece
-                if (board[x][y] == board[x][y + 1]) { //if that piece matches the one under to it
-                    inAColumn++;
-                    if (inAColumn == 3) { //if there has been 3 times where they have matched that means there are four in a column
-                        return true;
-                    }
-                }
-                else { //if there is a differtent piece blocking the win
-                    inAColumn = 0; //reset counter to 0
-                }
+            if (board[x][y] == which && board[x][y] == board[x][y + 1]) { //check if there is a piece and it matches the one in a column
+                inAColumn++;
+                if (inAColumn == 3) return true;
             }
             else {
-                inAColumn = 0; //catches if there is a blank space blocking the win
+                inAColumn = 0;
             }
         }
     }
@@ -86,12 +72,7 @@ bool Game::checkWin() {
         int inADiag = 0;
         if (i < 3) { //first three diagnals to the right
             while (x < 6 && y < 5) {
-                if (board[x][y] == board[x + 1][y + 1] && board[x][y] != 0) { //looks at the one diagnial from it and compares as long as its not a zero
-                    inADiag++;
-                }
-                else { //if blocked by a diffrent piece or blank space resets counter
-                    inADiag = 0;
-                }
+                board[x][y] == board[x + 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x++;
                 y++;
@@ -99,12 +80,7 @@ bool Game::checkWin() {
         }
         else if (i > 3) { //last three diagnal to the left
             while (x > 0 && y < 5) {
-                if (board[x][y] == board[x - 1][y + 1] && board[x][y] != 0) {//looks at the one diagnial from it and compares as long as its not a zero
-                    inADiag++;
-                }
-                else { //if blocked by a diffrent piece or blank space resets counter
-                    inADiag = 0;
-                }
+                board[x][y] == board[x - 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x--;
                 y++;
@@ -112,12 +88,7 @@ bool Game::checkWin() {
         }
         else { //middle two dagnals
             while (x > 0 && y < 3) { //left facing
-                if (board[x][y] == board[x - 1][y + 1] && board[x][y] != 0) {//looks at the one diagnial from it and compares as long as its not a zero
-                    inADiag++;
-                }
-                else { //if blocked by a diffrent piece or blank space resets counter
-                    inADiag = 0;
-                }
+                board[x][y] == board[x - 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x--;
                 y++;
@@ -125,12 +96,7 @@ bool Game::checkWin() {
             y = 0;
             x = i;
             while (x < 6 && y < 3) { //right facing
-                if (board[x][y] == board[x + 1][y + 1] && board[x][y] != 0) { //looks at the one diagnial from it and compares as long as its not a zero
-                    inADiag++;
-                }
-                else { //if blocked by a diffrent piece or blank space resets counter
-                    inADiag = 0;
-                }
+                board[x][y] == board[x +1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x++;
                 y++;

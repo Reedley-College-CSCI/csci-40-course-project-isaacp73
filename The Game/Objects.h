@@ -31,25 +31,44 @@ class Game {
         Game(int (*ptr)[6]); //initiate the game
         bool makeMove(int move, bool which);
         void printBoard();
-        bool checkWin();
+        bool checkWin(int which);
 };
 
 class Bot {
     private:
         int (*board)[6];
         int copy[7][6];
+
+        struct MoveSequence {
+            unsigned int moves;
+            bool ilegalMove[7];
+        };
+
+        //used only in compute and it's functions
+        MoveSequence *moveSequence;
+        unsigned int turnsAhead;
+        unsigned int size; //size of moveSequence array
+        const unsigned int SIZE_INCRAMENT = 10;
+
         unsigned int move;
         unsigned int Turn;
+
         unsigned int numFiles;
-        //in Bot algorithms.cpp
-        int compute();
-        int checkFiles();
+        
+        //functions used in compute
+        void reSizeArr();
+        bool incramentMoveSequence(long int size);
+        void makeMoveSequence(Game& copyOfBoard);
+        void resetCopy();
+
+        //functions used in botMove
         bool oneMoveWins(int playerOrBot);
         bool verifyWin(bool playerOrBot);
-        bool findWin();
-        void generateBoard(unsigned long long int position, unsigned int turn);
+        int checkFiles();
+        void compute();
     public:
         Bot(int (*ptr)[6]);
-        void PrintMove();
+        ~Bot();
         int botMove(int turn);
+        void printMoveSequence();
 };

@@ -39,7 +39,7 @@ PlayerData::PlayerData() {
 
         cout << "What is your name? (Capitalization matters. Only First name, no whitespace.)\n";
         getline(cin, name);
-        system("cls");
+        system("clear");
 
         if (checkString(name)) {
             cout << "Bruh..I said no whitespace. TRY AGAIN!\n";
