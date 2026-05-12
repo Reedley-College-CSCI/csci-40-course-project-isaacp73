@@ -9,21 +9,35 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
         for (int x = 0; x < 6; x++) { //increment accross the row
             if (board[x][y] == playerOrBot && board[x][y] == board[x + 1][y]) { //check if theres is a piece and it matches one next to it
                 inARow++;
-                if (inARow == 2) { //if there has been 2 times where they have matched that means there are two in a row
-                    if (x-2 >= 0 && board[x - 2][y] == 0) { //check left bound and if its an open space to the left
-                        move = x-1;
-                        return true;
-                    }
-                    if (x+2 < 7 && board[x+2][y] == 0) { //check right bound and if its an open space to the right
-                        move = x + 3;
-                        return true;
-                    }
-                }
+                
+            }
+            else if (x < 5 && board[x][y] == playerOrBot && board[x][y] == board[x + 2][y]) {
+                inARow++;
+                x++;
             }
             else { //catches if there is a blank space blocking the win
                 inARow = 0;
             }
-        }
+
+            if (inARow == 2) { //if there has been 2 times where they have matched that means there are two in a row
+                if (board[x][y] == 0) {
+                    move = x + 1;
+                    return true;
+                }
+                else if (board[x - 1][y] == 0) {
+                    move = x;
+                    return true;
+                }
+                else if (x-2 >= 0 && board[x - 2][y] == 0) { //check left bound and if its an open space to the left
+                    move = x-1;
+                    return true;
+                }
+                else if (x+2 < 7 && board[x+2][y] == 0) { //check right bound and if its an open space to the right
+                    move = x + 3;
+                    return true;
+                }
+            }
+    }
     }
 
     // check for 3 in a row virtically
@@ -52,24 +66,33 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
         int inADiag = 0;
         if (i < 3) { //first three diagnals to the right
             while (x < 6 && y < 5) {
-                if (board[x][y] == board[x + 1][y + 1] && board[x][y] != 0 && board[x][y] == playerOrBot) { //looks at the one diagnial from it and compares as long as its not a zero
+                if (board[x][y] == playerOrBot && board[x][y] == board[x + 1][y + 1]) { //looks at the one diagnial from it and compares as long as its not a zero
                     inADiag++;
+                }
+                else if (x < 5 && y < 4 && board[x][y] == playerOrBot && board[x][y] == board[x + 2][y + 2]) {
+                    inADiag++;
+                    x++;
+                    y++;
                 }
                 else { //if blocked by a diffrent piece or blank space resets counter
                     inADiag = 0;
                 }
                 if (inADiag == 2) { //catch 3 in a row
-                    if (x+2 < 7 && y+2 < 6) { //check bottom right bound
-                        if (board[x+2][y+2] == 0) {
-                            move = x+3;
-                            return true;
-                        }
+                    if (board[x][y] == 0){
+                        move = x+1;
+                        return true;
                     }
-                    if (x-2 >= 0 && y-2 >= 0) { //check top left bound
-                        if (board[x-2][y-2] == 0) { 
-                            move = x-1;
-                            return true;
-                        }
+                    else if (board[x - 1][y - 1] == 0) {
+                        move = x;
+                        return true;
+                    }
+                    else if (x+2 < 7 && y+2 < 6 && board[x+2][y+2] == 0) { //check bottom right bound
+                        move = x+3;
+                        return true;
+                    }
+                    else if (x-2 >= 0 && y-2 >= 0 && board[x-2][y-2] == 0) { //check top left bound
+                        move = x-1;
+                        return true;
                     }
                 } 
                 x++;
@@ -78,24 +101,33 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
         }
         else if (i > 3) { //last three diagnal to the left
             while (x > 0 && y < 5) {
-                if (board[x][y] == board[x - 1][y + 1] && board[x][y] != 0 && board[x][y] == playerOrBot) {//looks at the one diagnial from it and compares as long as its not a zero
+                if (board[x][y] == playerOrBot && board[x][y] == board[x - 1][y + 1]) {//looks at the one diagnial from it and compares as long as its not a zero
                     inADiag++;
+                }
+                else if (x > 1 && y < 4 && board[x][y] == playerOrBot && board[x - 2][y + 2]) {
+                    inADiag++;
+                    x--;
+                    y++;
                 }
                 else { //if blocked by a diffrent piece or blank space resets counter
                     inADiag = 0;
                 }
                 if (inADiag == 2) { //catch 3 in a row
-                    if (x-2 > 0 && y+2 < 6) { //check bottom left bound
-                        if (board[x-2][y+2] == 0) {
-                            move = x-1;
-                            return true;
-                        }
+                    if (board[x][y] == 0) {
+                        move = x + 1;
+                        return true;
                     }
-                    if (x+2 < 7 && y-2 > 0){ //check top right bound
-                        if (board[x+2][y-2] == 0) {
-                            move = x+3;
-                            return true;
-                        }
+                    else if (board[x + 1][y - 1] == 0) {
+                        move = x + 2;
+                        return true;
+                    }
+                    if (x-2 > 0 && y+2 < 6 && board[x-2][y+2] == 0) { //check bottom left bound
+                        move = x-1;
+                        return true;
+                    }
+                    if (x+2 < 7 && y-2 > 0 && board[x+2][y-2] == 0){ //check top right bound
+                        move = x+3;
+                        return true;
                     }
                 } 
                 x--;
@@ -104,24 +136,33 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
         }
         else { //middle two dagnals
             while (x > 0 && y < 3) { //left facing
-                if (board[x][y] == board[x - 1][y + 1] && board[x][y] != 0 && board[x][y] == playerOrBot) {//looks at the one diagnial from it and compares as long as its not a zero
+                if (board[x][y] == playerOrBot && board[x][y] == board[x - 1][y + 1]) {//looks at the one diagnial from it and compares as long as its not a zero
                     inADiag++;
+                }
+                else if (x > 1 && y < 4 && board[x][y] == playerOrBot && board[x - 2][y + 2]) {
+                    inADiag++;
+                    x--;
+                    y++;
                 }
                 else { //if blocked by a diffrent piece or blank space resets counter
                     inADiag = 0;
                 }
                 if (inADiag == 2) { //catch 3 in a row
-                    if (x-2 > 0 && y+2 < 6) { //check bottom left bound
-                        if (board[x-2][y+2] == 0) {
-                            move = x-1;
-                            return true;
-                        }
+                    if (board[x][y] == 0) {
+                        move = x + 1;
+                        return true;
                     }
-                    if (x+2 < 7 && y-2 > 0){ //check top right bound
-                        if (board[x+2][y-2] == 0) {
-                            move = x+3;
-                            return true;
-                        }
+                    else if (board[x + 1][y - 1] == 0) {
+                        move = x + 2;
+                        return true;
+                    }
+                    else if (x-2 > 0 && y+2 < 6 && board[x-2][y+2] == 0) { //check bottom left bound
+                        move = x-1;
+                        return true;
+                    }
+                    else if (x+2 < 7 && y-2 > 0 == board[x+2][y-2] == 0) { //check top right bound
+                        move = x+3;
+                        return true;
                     }
                 }
                 x--;
@@ -133,21 +174,30 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
                 if (board[x][y] == board[x + 1][y + 1] && board[x][y] != 0 && board[x][y] == playerOrBot) { //looks at the one diagnial from it and compares as long as its not a zero
                     inADiag++;
                 }
+                else if (x < 5 && y < 4 && board[x][y] == playerOrBot && board[x][y] == board[x + 2][y + 2]) {
+                    inADiag++;
+                    x++;
+                    y++;
+                }
                 else { //if blocked by a diffrent piece or blank space resets counter
                     inADiag = 0;
                 }
                 if (inADiag == 2) { //catch 3 in a row
-                    if (x+2 < 7 && y+2 < 6) { //check bottom right bound
-                        if (board[x+2][y+2] == 0) {
-                            move = x+3;
-                            return true;
-                        }
+                    if (board[x][y] == 0) {
+                        move = x + 1;
+                        return true;
                     }
-                    if (x-2 > 0 && y-2 > 0) { //check top left bound
-                        if (board[x-2][y-2] == 0) { 
-                            move = x-1;
-                            return true;
-                        }
+                    else if (board[x - 1][y - 1] == 0) {
+                        move = x;
+                        return true;
+                    }
+                    else if (x+2 < 7 && y+2 < 6 && board[x+2][y+2] == 0) { //check bottom right bound
+                        move = x+3;
+                        return true;
+                    }
+                    else if (x-2 > 0 && y-2 > 0 && board[x-2][y-2] == 0) { //check top left bound
+                        move = x-1;
+                        return true;
                     }
                 }
                 x++;
@@ -162,24 +212,33 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
         int y = 5;
         int inADiag = 0;
         while (x > 0 && y > 0) { //left facing
-            if (board[x][y] == board[x - 1][y - 1] && board[x][y] != 0 && board[x][y] == playerOrBot) {//looks at the one diagnial from it and compares as long as its not a zero
+            if (board[x][y] == playerOrBot && board[x][y] == board[x - 1][y - 1]) {//looks at the one diagnial from it and compares as long as its not a zero
                 inADiag++;
+            }
+            else if (x > 1 && y > 1 && board[x][y] == playerOrBot && board[x][y] == board[x - 2][y - 2]) {
+                inADiag++;
+                x--;
+                y--;
             }
             else { //if blocked by a diffrent piece or blank space resets counter
                 inADiag = 0;
             }
             if (inADiag == 2) { //catch 3 in a row
-                if (x-2 >= 0 && y-2 >= 0) { //check top left bound
-                    if (board[x-2][y-2] == 0) {
-                        move = x-1;
-                        return true;
-                    }
+                if (board[x][y] == 0) {
+                    move = x + 1;
+                    return true;
                 }
-                if (x+2 < 7 && y+2 < 6){ //check bottom right bound
-                    if (board[x+2][y+2] == 0) {
+                else if (board[x + 1][y + 1] == 0) {
+                    move = x + 2;
+                    return true;
+                }
+                else if (x-2 >= 0 && y-2 >= 0 && board[x-2][y-2] == 0) { //check top left bound
+                    move = x-1;
+                    return true;
+                }
+                else if (x+2 < 7 && y+2 < 6 && board[x+2][y+2] == 0){ //check bottom right bound
                         move = x+3;
                         return true;
-                    }
                 }
             }
             x--;
@@ -195,17 +254,21 @@ bool Bot::oneMoveWins(int playerOrBot) { //1 is bot 2 is player
                 inADiag = 0;
             }
             if (inADiag == 2) { //catch 3 in a row
-                if (x+2 < 7 && y-2 >= 0) { //check top right bound
-                    if (board[x+2][y-2] == 0) {
-                        move = x+3;
-                        return true;
-                    }
+                if (board[x][y] == 0) {
+                    move = x + 1;
+                    return true;
                 }
-                if (x-2 > 0 && y+2 < 6) { //check bottom left bound
-                    if (board[x-2][y+2] == 0) { 
-                        move = x-1;
-                        return true;
-                    }
+                else if (board[x - 1][y + 1] == 0) {
+                    move = x;
+                    return true;
+                }
+                if (x+2 < 7 && y-2 >= 0 && board[x+2][y-2] == 0) { //check top right bound
+                    move = x+3;
+                    return true;
+                }
+                if (x-2 > 0 && y+2 < 6 && board[x-2][y+2] == 0) { //check bottom left bound
+                    move = x-1;
+                    return true;
                 }
             }
             x++;
@@ -219,12 +282,7 @@ bool Bot::verifyWin(bool playerOrBot) {//true is the bot false is the player
 
     Game boardCopy(copy); //create Game object with the copy
 
-    //copy board
-    for (int y = 0; y < 6; y++) {
-        for (int x = 0; x < 7; x++) {
-            copy[x][y] = board[x][y];
-        }
-    }
+    resetCopy();
 
     if (!boardCopy.makeMove(move, playerOrBot)) return false; //check if the move is illegal
 
