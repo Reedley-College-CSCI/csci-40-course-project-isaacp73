@@ -72,7 +72,7 @@ bool Game::checkWin(int which) {
         int inADiag = 0;
         if (i < 3) { //first three diagnals to the right
             while (x < 6 && y < 5) {
-                board[x][y] == board[x + 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
+                board[x][y] == which && board[x][y] == board[x + 1][y + 1] ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x++;
                 y++;
@@ -80,7 +80,7 @@ bool Game::checkWin(int which) {
         }
         else if (i > 3) { //last three diagnal to the left
             while (x > 0 && y < 5) {
-                board[x][y] == board[x - 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
+                board[x][y] == which && board[x][y] == board[x - 1][y + 1] ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x--;
                 y++;
@@ -88,7 +88,7 @@ bool Game::checkWin(int which) {
         }
         else { //middle two dagnals
             while (x > 0 && y < 3) { //left facing
-                board[x][y] == board[x - 1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
+                board[x][y] == which && board[x][y] == board[x - 1][y + 1] ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x--;
                 y++;
@@ -96,7 +96,7 @@ bool Game::checkWin(int which) {
             y = 0;
             x = i;
             while (x < 6 && y < 3) { //right facing
-                board[x][y] == board[x +1][y + 1] && board[x][y] == which ? inADiag++ : inADiag = 0;
+                board[x][y] == which && board[x][y] == board[x +1][y + 1] ? inADiag++ : inADiag = 0;
                 if (inADiag == 3) return true; //catch a win
                 x++;
                 y++;
@@ -110,12 +110,7 @@ bool Game::checkWin(int which) {
         int y = 5;
         int inADiag = 0;
         while (x > 0 && y > 0) { //left facing
-            if (board[x][y] == board[x - 1][y - 1] && board[x][y] != 0) {//looks at the one diagnial from it and compares as long as its not a zero
-                inADiag++;
-            }
-            else { //if blocked by a diffrent piece or blank space resets counter
-                inADiag = 0;
-            }
+            board[x][y] == which && board[x][y] == board[x - 1][y - 1] ? inADiag++ : inADiag = 0;
             if (inADiag == 3) return true; //catch a win
             x--;
             y--;
@@ -123,12 +118,7 @@ bool Game::checkWin(int which) {
         x = i;
         y = 5;
         while (x < 6 && y > 0) { //right facing
-            if (board[x][y] == board[x + 1][y - 1] && board[x][y] != 0) {//looks at the one diagnial from it and compares as long as its not a zero
-                inADiag++;
-            }
-            else { //if blocked by a diffrent piece or blank space resets counter
-                inADiag = 0;
-            }
+            board[x][y] == which && board[x][y] == board[x + 1][y - 1] ? inADiag++ : inADiag = 0;
             if (inADiag == 3) return true; //catch a win
             x++;
             y--;
