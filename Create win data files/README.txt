@@ -1,5 +1,5 @@
-Game Position:
-    The current games position will be stored in a 2D array of integers.
+Game Positioning system:
+    The game can be represented by a 2D array of integers where:
         0 - no piece there
         1 - bot piece there (i.e an "X")
         2 - user piece is there (i.e. an "O")
@@ -26,6 +26,7 @@ Game Position:
             else
                 P(ₙ - 1) = P
             where n is what turn you're on and P = position.
+            This will give you the last position the game was at.
         To know what move was made in a given position the following equation can be used:
             M = P - 7 * (P/7)
             if (P/7 == 0) M = 7
@@ -34,3 +35,6 @@ Game Position:
             L = the range of P that are all the possible next turns position
             P * 7 = the upper bound
             p * 7 - 6 = the lower bound
+        T0 is called the root position. In this case since the bot will always make the move 4 first, T0 looks like this:
+            0001000
+        But T0 can look like anything and all other positions would be algorithmically relative to the root position.
