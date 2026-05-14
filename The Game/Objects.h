@@ -13,10 +13,12 @@ class PlayerData {
             unsigned int playerWins;
         };
         void newPlayer();
-        void sortData(const int& type);
+        
         bool findPlayer(std::string name);
     public:
         PlayerData();
+        PlayerData(bool noName) {}
+        void sortData(const int& type);
         void displayPlayerData();
         void updateData(bool botOrPlayerWin);
         std::string printName() {
