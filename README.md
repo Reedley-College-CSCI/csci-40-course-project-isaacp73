@@ -48,7 +48,7 @@
 6. In both modes the program will reprint the users name if they make an invalid input.
 7. In bot mode the board will be updated with the players move and add the bots move and repromt the player for their move. In two player it will reprint the board with the players move and promt the other player for their move with their name.
 8. Once the game is over and a user or the bot has won, a sill message will be printed and will start again at the top.
-- Live example: 
+- Live example: https://youtu.be/IT3_PpIR1RI
 
 ---
 
