@@ -33,10 +33,33 @@
 ---
 
 ## 3. Testing Summary
-- **Structured Testing Log:** Include a table with test cases, expected output, actual output, and pass/fail status.  
-- What testing methods did you use?  
-- Provide examples of test inputs (valid and invalid) and describe how your program responds.  
+1. Inputs at first prompt:
+    | Test | Input | Expected | Actual | Pass? |
+    |-----|-------|----------|--------|-------|
+    | #1 | '4' | Invalid input message reprompt | Invalid input message reprompt | Yes |
+    | #2 | 'a' | Invalid input message reprompt | Invalid input message reprompt | Yes |
+    | #3 | '1' | Enter single player | Entered single player | Yes |
+    | #4 | '2' | Enter two player | Entered two player | Yes|
+    | #5 | '3' | Print leader boards | Printed leader boards | Yes |
+    | #6 | '-99' | Print "goodbye" message and close program | Printed "goodbye" message and closed program | Yes |
+2. Name inputs:
+    | Test | Input | Expected | Actual | Pass? |
+    |-----|-------|----------|--------|-------|
+    | #1 | "isaac pulido" | Invalid input message and reprompt | Invalid input message and reprompt | Yes |
+    | #2 | "isaac" | Continue to next prompt | Continued to next prompt | Yes |
 
+3. Move inputs:
+    | Test | Input | Expected | Actual | Pass? |
+    |-----|-------|----------|--------|-------|
+    | #1 | '3' | Make move as normal | Maded move as normal | Yes |
+    | #2 | '8' | Print name again | Printed name again | Yes |
+    | #3 | '0' | Print name again | Printed name again | Yes |
+    | #4 | 'a' | Print name again | Printed name again | Yes |
+4. Leader board:
+    | Test | Input | Expected | Actual | Pass? |
+    |-----|-------|----------|--------|-------|
+    | #1 | File missing | Print error message and prompt again | Printed error message and prompted again | Yes |
+    | #2 | Empty file | Print error message and prompt again | Printed error message and prompted again | Yes |
 ---
 
 ## 4. Technical Walkthrough
